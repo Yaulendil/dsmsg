@@ -13,7 +13,7 @@ use crate::util::*;
 ///     is a Fill phrase.
 pub struct Message<'m> {
     temp: &'m str,
-    fill: Option<&'m str>,
+    fill: Option<String>,
 }
 
 impl Message<'_> {
@@ -22,11 +22,21 @@ impl Message<'_> {
     ///     be chosen to fill it.
     pub fn random(rng: &mut ThreadRng) -> Self {
         let temp = choose(TEMPLATES, rng);
+        let fill;
+
+        if temp.contains('\x1F') {
+            let mut s = choose(FILL, rng).to_owned();
+
+            if temp.starts_with('\x1F') || temp.contains(':') {
+                capitalize(&mut s);
+            }
+
+            fill = Some(s);
+        } else { fill = None; }
+
         Self {
             temp,
-            fill: if temp.contains('\x1F') {
-                Some(choose(FILL, rng))
-            } else { None },
+            fill,
         }
     }
 }
