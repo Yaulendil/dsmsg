@@ -2,10 +2,10 @@
 
 mod data;
 
-use rand::prelude::*;
+use rand::prelude::ThreadRng;
 
+use crate::util::{capitalize, choose};
 use data::{FILL, TEMPLATES};
-use crate::util::*;
 
 
 /// Message: A complete Hint Message that could be found in-game. Consists of

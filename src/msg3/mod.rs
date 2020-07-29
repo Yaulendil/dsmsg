@@ -2,10 +2,10 @@
 
 mod data;
 
-use rand::prelude::*;
+use rand::prelude::ThreadRng;
 
+use crate::util::{choose, compound};
 use data::{CONJUNCTIONS, WORDS, TEMPLATES};
-use crate::util::*;
 
 
 /// Segment: A template, and a phrase to be inserted into it. Represents a
@@ -45,7 +45,7 @@ impl Message<'_> {
         Self {
             p1: Segment::random(rng),
             p2: {
-                if rng.gen_bool(COMPOUND_CHANCE) {
+                if compound(rng) {
                     Some((choose(CONJUNCTIONS, rng), Segment::random(rng)))
                 } else { None }
             },
