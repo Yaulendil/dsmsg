@@ -1,0 +1,18 @@
+[package]
+name = "dsmsg"
+version = "1.0.0"
+authors = ["Yaulendil <davarice@protonmail.com>"]
+edition = "2018"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+
+[dependencies]
+rand = "0.7"
+
+[features]
+# NewLine Feature inserts a Line Break between parts of a Compound Message.
+newline = []
