@@ -11,6 +11,7 @@ opt-level = "s"
 panic = "abort"
 
 [dependencies]
+lazy_static = "1.4.0"
 rand = "0.7"
 
 [features]

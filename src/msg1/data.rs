@@ -1,3 +1,4 @@
+/// Templates: Base strings, into which nouns can be inserted.
 pub const TEMPLATES: &[&str] = &[
     "\x1F ahead",
     "Be wary of \x1F",
@@ -14,6 +15,7 @@ pub const TEMPLATES: &[&str] = &[
     "Praise the Sun!",
 ];
 
+/// Fill: Nouns and concepts, for insertion into templates.
 pub const FILL: &[&str] = &[
     "Enemy",
     "Tough enemy",
