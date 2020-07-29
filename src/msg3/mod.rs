@@ -1,3 +1,5 @@
+//! Msg3: Generate Messages from Dark Souls III.
+
 mod data;
 
 use rand::prelude::*;

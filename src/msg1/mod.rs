@@ -1,3 +1,5 @@
+//! Msg1: Generate Messages from the original Dark Souls.
+
 mod data;
 
 use rand::prelude::*;

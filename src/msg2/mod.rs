@@ -1,3 +1,5 @@
+//! Msg2: Generate Messages from Dark Souls II.
+
 mod data;
 
 use rand::prelude::*;
