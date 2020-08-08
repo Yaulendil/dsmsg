@@ -9,12 +9,7 @@ const COMPOUND_CHANCE: f64 = 0.5;
 /// Given a `String`, replace the first character with its uppercase equivalent
 ///     in-place. Do not affect any other characters.
 pub fn capitalize(s: &mut String) {
-    unsafe {
-        let v: &mut Vec<u8> = s.as_mut_vec();
-        if v[0].is_ascii() {
-            v[0] = v[0].to_ascii_uppercase();
-        }
-    }
+    if !s.is_empty() { unsafe { s.as_bytes_mut()[0].make_ascii_uppercase(); } }
 }
 
 
