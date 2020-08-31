@@ -10,7 +10,7 @@ use data::{CONJUNCTIONS, WORDS, TEMPLATES};
 
 /// Segment: A template, and a phrase to be inserted into it. Represents a
 ///     single complete thought.
-struct Segment<'s> { main: &'s str, word: &'s str, }
+struct Segment<'s> { main: &'s str, word: &'s str }
 
 impl Segment<'_> {
     /// Create a new `Segment`, with a random Template and a random Word.
