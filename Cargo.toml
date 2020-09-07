@@ -35,3 +35,5 @@ rand = "0.7"
 [features]
 # NewLine Feature inserts a Line Break between parts of a Compound Message.
 newline = []
+# Include messages from Bloodborne.
+bloodborne = []

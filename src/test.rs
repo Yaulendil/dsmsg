@@ -45,3 +45,15 @@ fn test_ds3() {
         );
     }
 }
+
+
+#[cfg(feature="bloodborne")]
+#[test]
+fn test_bb() {
+    for i in 1..=ITERS {
+        println!(
+            "B-{i:0d$}: {txt}",
+            i=i, d=DIGIT, txt=MessageBlood::random(&mut thread_rng()),
+        );
+    }
+}
