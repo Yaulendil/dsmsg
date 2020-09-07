@@ -1,6 +1,6 @@
 # DSMsg
 
-##### Random generator for online messages from Dark Souls.
+##### Random generator for online messages from Dark Souls, Demon's Souls, and Bloodborne.
 
 Generates messages in the format of one of any of the three in the series, chosen randomly. Messages from Dark Souls II and III may have a second part, in which case the two parts will be joined by a conjunction.
 
@@ -19,11 +19,33 @@ The default installation outputs compound messages on a single line:
 Alternatively, to break them apart, you may enable the `newline` Feature:
 
 ```
-cargo install dsmsg --features newline
+cargo install dsmsg --features "newline"
 ```
 
 > recklessness ahead  
 > so to speak visions of misfortune...
+
+## Optional Message Sets
+
+Messages from Bloodborne and Demon's Souls are also available via compile options, with `bloodborne` and `demons`, respectively. To enable messages from both:
+
+```
+cargo install dsmsg --features "demons bloodborne"
+```
+
+Additionally, the messages from the Dark Souls series are now default Features, and can be disabled. Thus, to install using messages (with line breaks) from **ONLY** Dark Souls 3 and Bloodborne, for example, use the following command:
+
+```
+cargo install dsmsg --no-default-features --features "bloodborne ds3 newline"
+```
+
+This will first **disable** all three Dark Souls message groups (including `ds3`), and then **enable** the groups `bloodborne` and `ds3`. The full set of message groups is as follows:
+- `bloodborne`
+- `demons`
+- `ds1`
+- `ds2`
+- `ds3`
+
 
 ---
 
