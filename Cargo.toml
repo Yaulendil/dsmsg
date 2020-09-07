@@ -38,6 +38,8 @@ default = ["ds1", "ds2", "ds3"]
 # NewLine Feature inserts a Line Break between parts of a Compound Message.
 newline = []
 
+# Include messages from Demon's Souls.
+demons = []
 # Include messages from Dark Souls 1.
 ds1 = []
 # Include messages from Dark Souls 2.

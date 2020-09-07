@@ -14,6 +14,18 @@ fn test_main() {
 }
 
 
+#[cfg(feature="demons")]
+#[test]
+fn test_des() {
+    for i in 1..=ITERS {
+        println!(
+            "0-{i:0d$}: {txt}",
+            i=i, d=DIGIT, txt=MessageDemons::random(&mut thread_rng()),
+        );
+    }
+}
+
+
 #[cfg(feature="ds1")]
 #[test]
 fn test_ds1() {

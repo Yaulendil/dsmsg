@@ -9,7 +9,7 @@ const COMPOUND_CHANCE: f64 = 0.5;
 
 /// Given a `String`, replace the first character with its uppercase equivalent
 ///     in-place. Do not affect any other characters.
-#[cfg(feature="ds1")]
+#[cfg(any(feature="ds1", feature="demons"))]
 pub fn capitalize(s: &mut String) {
     if !s.is_empty() { unsafe { s.as_bytes_mut()[0].make_ascii_uppercase(); } }
 }

@@ -1,11 +1,13 @@
 #[cfg(not(any(
-    feature="bloodborne",
+    feature="bloodborne", feature="demons",
     feature="ds1", feature="ds2", feature="ds3",
 )))]
 compile_error!("Cannot compile without any Message Sets enabled.");
 
 #[cfg(feature="bloodborne")]
 mod bb;
+#[cfg(feature="demons")]
+mod des;
 #[cfg(feature="ds1")]
 mod ds1;
 #[cfg(feature="ds2")]
@@ -15,6 +17,8 @@ mod ds3;
 
 #[cfg(feature="bloodborne")]
 pub use bb::Message as MessageBlood;
+#[cfg(feature="demons")]
+pub use des::Message as MessageDemons;
 #[cfg(feature="ds1")]
 pub use ds1::Message as MessageDS1;
 #[cfg(feature="ds2")]
@@ -28,6 +32,8 @@ use rand::prelude::{SliceRandom, ThreadRng};
 pub const GENERATORS: &[fn(&mut ThreadRng) -> String] = &[
     #[cfg(feature="bloodborne")]
     |r| MessageBlood::random(r).to_string(),
+    #[cfg(feature="demons")]
+    |r| MessageDemons::random(r).to_string(),
     #[cfg(feature="ds1")]
     |r| MessageDS1::random(r).to_string(),
     #[cfg(feature="ds2")]
