@@ -14,6 +14,7 @@ fn test_main() {
 }
 
 
+#[cfg(feature="ds1")]
 #[test]
 fn test_ds1() {
     for i in 1..=ITERS {
@@ -25,6 +26,7 @@ fn test_ds1() {
 }
 
 
+#[cfg(feature="ds2")]
 #[test]
 fn test_ds2() {
     for i in 1..=ITERS {
@@ -36,6 +38,7 @@ fn test_ds2() {
 }
 
 
+#[cfg(feature="ds3")]
 #[test]
 fn test_ds3() {
     for i in 1..=ITERS {

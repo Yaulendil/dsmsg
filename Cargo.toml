@@ -33,7 +33,16 @@ rand = "0.7"
 
 
 [features]
+default = ["ds1", "ds2", "ds3"]
+
 # NewLine Feature inserts a Line Break between parts of a Compound Message.
 newline = []
+
+# Include messages from Dark Souls 1.
+ds1 = []
+# Include messages from Dark Souls 2.
+ds2 = []
+# Include messages from Dark Souls 3.
+ds3 = []
 # Include messages from Bloodborne.
 bloodborne = []
