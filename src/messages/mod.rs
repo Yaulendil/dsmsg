@@ -20,29 +20,33 @@ pub use bb::Message as MessageBlood;
 #[cfg(feature="demons")]
 pub use des::Message as MessageDemons;
 #[cfg(feature="ds1")]
-pub use ds1::Message as MessageDS1;
+pub use ds1::Message as MessageDkS1;
 #[cfg(feature="ds2")]
-pub use ds2::Message as MessageDS2;
+pub use ds2::Message as MessageDkS2;
 #[cfg(feature="ds3")]
-pub use ds3::Message as MessageDS3;
+pub use ds3::Message as MessageDkS3;
 
 use rand::prelude::{SliceRandom, ThreadRng};
 
 
+/// Generators: A constant slice of small closures that each return the `String`
+///     form of a random generation of their respective messages.
 pub const GENERATORS: &[fn(&mut ThreadRng) -> String] = &[
     #[cfg(feature="bloodborne")]
     |r| MessageBlood::random(r).to_string(),
     #[cfg(feature="demons")]
     |r| MessageDemons::random(r).to_string(),
     #[cfg(feature="ds1")]
-    |r| MessageDS1::random(r).to_string(),
+    |r| MessageDkS1::random(r).to_string(),
     #[cfg(feature="ds2")]
-    |r| MessageDS2::random(r).to_string(),
+    |r| MessageDkS2::random(r).to_string(),
     #[cfg(feature="ds3")]
-    |r| MessageDS3::random(r).to_string(),
+    |r| MessageDkS3::random(r).to_string(),
 ];
 
 
+/// Randomly select from the `GENERATORS` slice, and run it, producing a random
+///     message from a random source.
 pub fn random_message(rng: &mut ThreadRng) -> String {
     GENERATORS.choose(rng).unwrap()(rng)
 }

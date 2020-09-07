@@ -32,7 +32,7 @@ fn test_ds1() {
     for i in 1..=ITERS {
         println!(
             "1-{i:0d$}: {txt}",
-            i=i, d=DIGIT, txt=MessageDS1::random(&mut thread_rng()),
+            i=i, d=DIGIT, txt=MessageDkS1::random(&mut thread_rng()),
         );
     }
 }
@@ -44,7 +44,7 @@ fn test_ds2() {
     for i in 1..=ITERS {
         println!(
             "2-{i:0d$}: {txt}",
-            i=i, d=DIGIT, txt=MessageDS2::random(&mut thread_rng()),
+            i=i, d=DIGIT, txt=MessageDkS2::random(&mut thread_rng()),
         );
     }
 }
@@ -56,7 +56,7 @@ fn test_ds3() {
     for i in 1..=ITERS {
         println!(
             "3-{i:0d$}: {txt}",
-            i=i, d=DIGIT, txt=MessageDS3::random(&mut thread_rng()),
+            i=i, d=DIGIT, txt=MessageDkS3::random(&mut thread_rng()),
         );
     }
 }
