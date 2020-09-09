@@ -1,5 +1,12 @@
 # DSMsg
 
+[
+![Crates.io](https://img.shields.io/crates/v/dsmsg.svg)
+![Crates.io](https://img.shields.io/crates/l/dsmsg.svg)  
+![Crates.io](https://img.shields.io/crates/dv/dsmsg.svg)
+![Crates.io](https://img.shields.io/crates/d/dsmsg.svg)
+](https://crates.io/crates/dsmsg)
+
 ##### Random generator for online messages from Dark Souls, Demon's Souls, and Bloodborne.
 
 Generates messages in the format of one of any of the three in the series, chosen randomly. Messages from Dark Souls II and III may have a second part, in which case the two parts will be joined by a conjunction.
@@ -33,7 +40,7 @@ Messages from Bloodborne and Demon's Souls are also available via compile option
 cargo install dsmsg --features "demons bloodborne"
 ```
 
-Additionally, the messages from the Dark Souls series are now default Features, and can be disabled. Thus, to install using messages (with line breaks) from **ONLY** Dark Souls 3 and Bloodborne, for example, use the following command:
+Additionally, the messages from the Dark Souls series are now default Features, and can be disabled. Thus, to install using messages (with line breaks) from **ONLY** Dark Souls III and Bloodborne, for example, use the following command:
 
 ```
 cargo install dsmsg --no-default-features --features "bloodborne ds3 newline"
