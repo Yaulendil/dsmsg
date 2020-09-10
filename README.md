@@ -1,11 +1,12 @@
 # DSMsg
 
 [
-![Crates.io](https://img.shields.io/crates/v/dsmsg.svg)
-![Crates.io](https://img.shields.io/crates/l/dsmsg.svg)  
-![Crates.io](https://img.shields.io/crates/dv/dsmsg.svg)
-![Crates.io](https://img.shields.io/crates/d/dsmsg.svg)
-](https://crates.io/crates/dsmsg)
+![Crates.io](https://img.shields.io/crates/v/dsmsg?logo=rust&style=for-the-badge&label=crate)
+![Downloads](https://img.shields.io/crates/d/dsmsg?style=flat-square)
+](https://crates.io/crates/dsmsg)  
+[
+![GitHub](https://img.shields.io/github/repo-size/yaulendil/dsmsg?logo=github&style=for-the-badge&label=repo)
+](https://github.com/yaulendil/dsmsg)
 
 ##### Random generator for online messages from Dark Souls, Demon's Souls, and Bloodborne.
 
