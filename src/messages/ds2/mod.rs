@@ -2,10 +2,10 @@
 
 mod data;
 
-use rand::prelude::ThreadRng;
+use rand::prelude::{SliceRandom, ThreadRng};
 
-use crate::util::{choose, compound};
-use data::{CONJUNCTIONS, WORDS, WORDS_MUSINGS, TEMPLATES};
+use crate::util::compound;
+use data::{CONJUNCTIONS, TEMPLATES, WORDS, WORDS_MUSINGS};
 
 
 /// Segment: A template, and a phrase to be inserted into it. Represents a
@@ -15,8 +15,8 @@ struct Segment<'s> { main: &'s str, word: &'s str }
 impl Segment<'_> {
     /// Create a new `Segment`, with a random Template and a random Word.
     pub fn random(rng: &mut ThreadRng) -> Self {
-        let main = choose(TEMPLATES, rng);
-        let word_list;
+        let main: &str = TEMPLATES.choose(rng).unwrap();
+        let word_list: &[&str];
 
         //  All of the Templates which are allowed to use Musings are four
         //      characters or shorter.
@@ -28,7 +28,7 @@ impl Segment<'_> {
 
         Self {
             main,
-            word: choose(word_list, rng),
+            word: word_list.choose(rng).unwrap(),
         }
     }
 }
@@ -55,21 +55,18 @@ impl Message<'_> {
     pub fn random(rng: &mut ThreadRng) -> Self {
         Self {
             p1: Segment::random(rng),
-            p2: {
-                if compound(rng) {
-                    Some((choose(CONJUNCTIONS, rng), Segment::random(rng)))
-                } else { None }
-            },
+            p2: if compound(rng) {
+                Some((CONJUNCTIONS.choose(rng).unwrap(), Segment::random(rng)))
+            } else { None },
         }
     }
 }
 
 impl std::fmt::Display for Message<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        if let Some((conj, second)) = &self.p2 {
-            write!(f, "{}{}{}", &self.p1, conj, second)
-        } else {
-            write!(f, "{}", &self.p1)
+        match &self.p2 {
+            Some((conj, second)) => write!(f, "{}{}{}", &self.p1, conj, second),
+            None => write!(f, "{}", &self.p1),
         }
     }
 }

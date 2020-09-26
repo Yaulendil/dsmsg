@@ -2,9 +2,9 @@
 
 mod data;
 
-use rand::prelude::ThreadRng;
+use rand::prelude::{SliceRandom, ThreadRng};
 
-use crate::util::{capitalize, choose};
+use crate::util::capitalize;
 use data::{FILL, TEMPLATES};
 
 
@@ -21,33 +21,30 @@ impl Message<'_> {
     ///     chosen string contains a placeholder character, a second `&str` will
     ///     be chosen to fill it.
     pub fn random(rng: &mut ThreadRng) -> Self {
-        let temp = choose(TEMPLATES, rng);
-        let fill;
+        let temp: &str = TEMPLATES.choose(rng).unwrap();
+        let fill: Option<String> = match temp.find('\x1F') {
+            Some(i) => {
+                let mut s = String::from(*FILL.choose(rng).unwrap());
 
-        if temp.contains('\x1F') {
-            let mut s = choose(FILL, rng).to_owned();
+                if i == 0 || temp.contains(':') { capitalize(&mut s); }
 
-            if temp.starts_with('\x1F') || temp.contains(':') {
-                capitalize(&mut s);
+                Some(s)
             }
+            None => { None }
+        };
 
-            fill = Some(s);
-        } else { fill = None; }
-
-        Self {
-            temp,
-            fill,
-        }
+        Self { temp, fill }
     }
 }
 
 impl std::fmt::Display for Message<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        if let Some(fill) = &self.fill {
-            let i: usize = self.temp.find('\x1F').unwrap_or_else(|| self.temp.len());
-            write!(f, "{}{}{}", &self.temp[..i], &fill, &self.temp[i + 1..])
-        } else {
-            write!(f, "{}", &self.temp)
+        match &self.fill {
+            Some(fill) => {
+                let i: usize = self.temp.find('\x1F').unwrap_or_else(|| self.temp.len());
+                write!(f, "{}{}{}", &self.temp[..i], &fill, &self.temp[i + 1..])
+            }
+            _ => write!(f, "{}", &self.temp),
         }
     }
 }

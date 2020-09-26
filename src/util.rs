@@ -15,12 +15,6 @@ pub fn capitalize(s: &mut String) {
 }
 
 
-/// Randomly return a Reference to a `&str` in a Slice.
-pub fn choose<'a>(slice: &[&'a str], rng: &mut ThreadRng) -> &'a str {
-    slice[rng.gen_range(0, slice.len())]
-}
-
-
 /// Randomly choose whether a Message should have multiple components.
 #[cfg(any(feature="ds2", feature="ds3", feature="bloodborne"))]
 pub fn compound(rng: &mut ThreadRng) -> bool {
