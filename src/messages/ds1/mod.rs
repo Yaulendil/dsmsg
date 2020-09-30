@@ -11,12 +11,12 @@ use data::{FILL, TEMPLATES};
 /// Message: A complete Hint Message that could be found in-game. Consists of
 ///     either one or two `&str`s. One is a Template, and the other, if present,
 ///     is a Fill phrase.
-pub struct Message<'m> {
-    temp: &'m str,
+pub struct Message {
+    temp: &'static str,
     fill: Option<String>,
 }
 
-impl Message<'_> {
+impl Message {
     /// Create a new `Message`, with at least one randomized `&str`. If the
     ///     chosen string contains a placeholder character, a second `&str` will
     ///     be chosen to fill it.
@@ -37,7 +37,7 @@ impl Message<'_> {
     }
 }
 
-impl std::fmt::Display for Message<'_> {
+impl std::fmt::Display for Message {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match &self.fill {
             Some(fill) => {
