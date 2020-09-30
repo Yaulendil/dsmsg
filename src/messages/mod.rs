@@ -26,7 +26,7 @@ pub use ds2::Message as MessageDkS2;
 #[cfg(feature="ds3")]
 pub use ds3::Message as MessageDkS3;
 
-use rand::prelude::{SliceRandom, ThreadRng};
+use rand::prelude::{SliceRandom, thread_rng, ThreadRng};
 
 
 /// Generators: A constant slice of small closures that each return the `String`
@@ -47,6 +47,8 @@ pub const GENERATORS: &[fn(&mut ThreadRng) -> String] = &[
 
 /// Randomly select from the `GENERATORS` slice, and run it, producing a random
 ///     message from a random source.
-pub fn random_message(rng: &mut ThreadRng) -> String {
-    GENERATORS.choose(rng).unwrap()(rng)
+pub fn random_message() -> String {
+    let mut rng: ThreadRng = thread_rng();
+
+    GENERATORS.choose(&mut rng).unwrap()(&mut rng)
 }
