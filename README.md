@@ -35,13 +35,13 @@ cargo install dsmsg --features "newline"
 
 ## Optional Message Sets
 
-Messages from Bloodborne and Demon's Souls are also available via compile options, with `bloodborne` and `demons`, respectively. To enable messages from both:
+Messages from Bloodborne and Demon's Souls are also available via compile options. To enable output from all available message groups:
 
 ```
-cargo install dsmsg --features "demons bloodborne"
+cargo install dsmsg --features "all-sets"
 ```
 
-Additionally, the messages from the Dark Souls series are now default Features, and can be disabled. Thus, to install using messages (with line breaks) from **ONLY** Dark Souls III and Bloodborne, for example, use the following command:
+Additionally, the messages from the Dark Souls series are implemented as default Features, and can be disabled. Thus, to install using messages (with line breaks) from **ONLY** Dark Souls III and Bloodborne, for example, use the following command:
 
 ```
 cargo install dsmsg --no-default-features --features "bloodborne ds3 newline"
