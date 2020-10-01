@@ -7,8 +7,6 @@ extern crate lazy_static;
 extern crate rand;
 
 mod messages;
-#[cfg(test)]
-mod test;
 mod util;
 
 pub use messages::*;

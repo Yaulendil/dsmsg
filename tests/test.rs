@@ -1,18 +1,9 @@
 use rand::thread_rng;
-use super::*;
+use dsmsg::*;
 
 
 const ITERS: usize = 300;
 const DIGIT: usize = 3;
-
-
-/*#[test]
-fn test_main() {
-    for i in 1..6 {
-        print!("Main-{}: ", i);
-        main();
-    }
-}*/
 
 
 #[cfg(feature="demons")]
