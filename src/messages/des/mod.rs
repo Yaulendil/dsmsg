@@ -5,6 +5,7 @@ mod data;
 use rand::prelude::{SliceRandom, ThreadRng};
 
 use data::TEMPLATES;
+use super::DsMsg;
 
 
 /// Message: A complete Hint Message that could be found in-game. Consists of
@@ -15,11 +16,11 @@ pub struct Message {
     fill: Option<&'static str>,
 }
 
-impl Message {
+impl DsMsg for Message {
     /// Create a new `Message`, with at least one randomized `&str`. If the
     ///     chosen string contains a placeholder character, a second `&str` will
     ///     be chosen to fill it.
-    pub fn random(rng: &mut ThreadRng) -> Self {
+    fn random(rng: &mut ThreadRng) -> Self {
         let (temp, fills): &(&str, Option<&[&str]>) = TEMPLATES.choose(rng).unwrap();
         let fill: Option<&str> = fills.and_then(|array| array.choose(rng).copied());
 

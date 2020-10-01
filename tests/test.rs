@@ -1,9 +1,20 @@
-use rand::thread_rng;
 use dsmsg::*;
+use rand::thread_rng;
 
 
 const ITERS: usize = 300;
 const DIGIT: usize = 3;
+
+
+#[test]
+fn test_rng() {
+    for i in 1..=ITERS {
+        println!(
+            "?-{i:0d$}: {txt}",
+            i=i, d=DIGIT, txt=random_message(),
+        );
+    }
+}
 
 
 #[cfg(feature="demons")]
@@ -12,7 +23,7 @@ fn test_des() {
     for i in 1..=ITERS {
         println!(
             "0-{i:0d$}: {txt}",
-            i=i, d=DIGIT, txt=MessageDemons::random(&mut thread_rng()),
+            i=i, d=DIGIT, txt=MessageDeS::random(&mut thread_rng()),
         );
     }
 }
@@ -60,7 +71,7 @@ fn test_bb() {
     for i in 1..=ITERS {
         println!(
             "B-{i:0d$}: {txt}",
-            i=i, d=DIGIT, txt=MessageBlood::random(&mut thread_rng()),
+            i=i, d=DIGIT, txt=MessageBB::random(&mut thread_rng()),
         );
     }
 }
