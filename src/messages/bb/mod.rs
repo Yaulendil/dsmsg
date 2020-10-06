@@ -1,4 +1,4 @@
-//! bb: Generate Messages from Bloodborne.
+//! Generate Messages from Bloodborne.
 
 mod data;
 
@@ -9,7 +9,7 @@ use data::{CONJUNCTIONS, TEMPLATES, WORDS};
 use super::DsMsg;
 
 
-/// Segment: A template, and a phrase to be inserted into it. Represents a
+/// A template, combined with a phrase to be inserted into it. Represents a
 ///     single complete thought.
 struct Segment { main: &'static str, word: &'static str }
 

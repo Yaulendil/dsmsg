@@ -1,4 +1,4 @@
-//! Msg2: Generate Messages from Dark Souls II.
+//! Generate Messages from Dark Souls II.
 
 mod data;
 
@@ -9,7 +9,7 @@ use data::{CONJUNCTIONS, TEMPLATES, WORDS, WORDS_MUSINGS};
 use super::DsMsg;
 
 
-/// Segment: A template, and a phrase to be inserted into it. Represents a
+/// A template, combined with a phrase to be inserted into it. Represents a
 ///     single complete thought.
 struct Segment { main: &'static str, word: &'static str }
 
@@ -42,9 +42,9 @@ impl std::fmt::Display for Segment {
 }
 
 
-/// Message: A complete Hint Message that could be found in-game. Consists of
-///     either one or two `Segment`s. If there are two, there will also be a
-///     Conjunction `&str`.
+/// A complete Hint Message that could be found in Dark Souls II. Consists of
+///     either one or two parts. If there are two, there will also be a
+///     Conjunction string to join them.
 pub struct Message {
     p1: Segment,
     p2: Option<(&'static str, Segment)>,

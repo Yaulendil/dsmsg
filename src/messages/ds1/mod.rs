@@ -1,4 +1,4 @@
-//! Msg1: Generate Messages from the original Dark Souls.
+//! Generate Messages from the original Dark Souls.
 
 mod data;
 
@@ -12,8 +12,8 @@ use std::{
 use super::DsMsg;
 
 
-/// Message: A complete Hint Message that could be found in-game. Consists of
-///     either one or two `&str`s. One is a Template, and the other, if present,
+/// A complete Hint Message that could be found in Dark Souls 1. Consists of
+///     either one or two strings. One is a Template, and the other, if present,
 ///     is a Fill phrase.
 pub struct Message {
     temp: &'static str,
@@ -21,7 +21,7 @@ pub struct Message {
 }
 
 impl DsMsg for Message {
-    /// Create a new `Message`, with at least one randomized `&str`. If the
+    /// Create a new `Message`, with at least one randomized string. If the
     ///     chosen string contains a placeholder character, a second string will
     ///     be chosen to fill it.
     fn random(rng: &mut ThreadRng) -> Self {

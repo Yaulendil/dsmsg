@@ -1,4 +1,4 @@
-//! des: Generate Messages from the original Demon's Souls.
+//! Generate Messages from the original Demon's Souls.
 
 mod data;
 
@@ -8,8 +8,8 @@ use data::TEMPLATES;
 use super::DsMsg;
 
 
-/// Message: A complete Hint Message that could be found in-game. Consists of
-///     either one or two `&str`s. One is a Template, and the other, if present,
+/// A complete Hint Message that could be found in Demon's Souls. Consists of
+///     either one or two strings. One is a Template, and the other, if present,
 ///     is a Fill phrase.
 pub struct Message {
     temp: &'static str,
@@ -17,8 +17,8 @@ pub struct Message {
 }
 
 impl DsMsg for Message {
-    /// Create a new `Message`, with at least one randomized `&str`. If the
-    ///     chosen string contains a placeholder character, a second `&str` will
+    /// Create a new `Message`, with at least one randomized string. If the
+    ///     chosen string contains a placeholder character, a second string will
     ///     be chosen to fill it.
     fn random(rng: &mut ThreadRng) -> Self {
         let (temp, fills): &(&str, Option<&[&str]>) = TEMPLATES.choose(rng).unwrap();
