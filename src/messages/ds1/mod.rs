@@ -2,10 +2,13 @@
 
 mod data;
 
-use rand::prelude::{SliceRandom, ThreadRng};
-
 use crate::util::capitalize;
 use data::{FILL, TEMPLATES};
+use rand::prelude::{SliceRandom, ThreadRng};
+use std::{
+    borrow::Cow,
+    ops::Deref,
+};
 use super::DsMsg;
 
 
@@ -14,25 +17,28 @@ use super::DsMsg;
 ///     is a Fill phrase.
 pub struct Message {
     temp: &'static str,
-    fill: Option<String>,
+    fill: Option<Cow<'static, str>>,
 }
 
 impl DsMsg for Message {
     /// Create a new `Message`, with at least one randomized `&str`. If the
-    ///     chosen string contains a placeholder character, a second `&str` will
+    ///     chosen string contains a placeholder character, a second string will
     ///     be chosen to fill it.
     fn random(rng: &mut ThreadRng) -> Self {
-        let temp: &str = TEMPLATES.choose(rng).unwrap();
-        let fill: Option<String> = match temp.find('\x1F') {
-            Some(i) => {
-                let mut s = String::from(*FILL.choose(rng).unwrap());
+        let temp: &'static str = TEMPLATES.choose(rng).unwrap();
+        let fill: Option<Cow<'static, str>> = temp.find('\x1F').map(
+            |i| {
+                if i == 0 || temp.contains(':') {
+                    let mut s: String = FILL.choose(rng)
+                        .unwrap().deref().to_string();
 
-                if i == 0 || temp.contains(':') { capitalize(&mut s); }
-
-                Some(s)
+                    capitalize(&mut s);
+                    Cow::Owned(s)
+                } else {
+                    Cow::Borrowed(FILL.choose(rng).unwrap().deref())
+                }
             }
-            None => { None }
-        };
+        );
 
         Self { temp, fill }
     }
