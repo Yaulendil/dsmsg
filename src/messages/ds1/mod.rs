@@ -12,7 +12,7 @@ use std::{
 use super::DsMsg;
 
 
-/// A complete Hint Message that could be found in Dark Souls 1. Consists of
+/// A complete Hint Message that could be found in Dark Souls I. Consists of
 ///     either one or two strings. One is a Template, and the other, if present,
 ///     is a Fill phrase.
 pub struct Message {
