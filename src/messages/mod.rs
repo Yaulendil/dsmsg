@@ -29,8 +29,22 @@ pub use ds3::Message as MessageDkS3;
 use rand::prelude::{SliceRandom, thread_rng, ThreadRng};
 
 
+/// Indicates that a Struct can be used to generate and represent a Message.
 pub trait DsMsg: std::fmt::Display {
     fn random(rng: &mut ThreadRng) -> Self
+        where Self: Sized;
+}
+
+
+/// A special case of `DsMsg` which may contain a second segment. The two parts
+///     will be joined by a Conjunction string.
+pub trait DsMulti: DsMsg {
+    /// Create a `Message` with two parts.
+    fn double(rng: &mut ThreadRng) -> Self
+        where Self: Sized;
+
+    /// Create a `Message` with one part.
+    fn single(rng: &mut ThreadRng) -> Self
         where Self: Sized;
 }
 

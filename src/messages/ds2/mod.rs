@@ -6,7 +6,7 @@ use rand::prelude::{SliceRandom, ThreadRng};
 
 use crate::util::compound;
 use data::{CONJUNCTIONS, TEMPLATES, WORDS, WORDS_MUSINGS};
-use super::DsMsg;
+use super::{DsMsg, DsMulti};
 
 
 /// A template, combined with a phrase to be inserted into it. Represents a
@@ -50,15 +50,33 @@ pub struct Message {
     p2: Option<(&'static str, Segment)>,
 }
 
-impl DsMsg for Message {
-    /// Create a new `Message`, with at least one randomized `Segment`. There is
-    ///     a chance it will also contain a second `Segment`.
-    fn random(rng: &mut ThreadRng) -> Self {
+impl DsMulti for Message {
+    /// Create a `Message` with two parts.
+    fn double(rng: &mut ThreadRng) -> Self {
         Self {
             p1: Segment::random(rng),
-            p2: if compound(rng) {
-                Some((CONJUNCTIONS.choose(rng).unwrap(), Segment::random(rng)))
-            } else { None },
+            p2: Some((CONJUNCTIONS.choose(rng).unwrap(), Segment::random(rng))),
+        }
+    }
+
+    /// Create a `Message` with one part.
+    fn single(rng: &mut ThreadRng) -> Self {
+        Self {
+            p1: Segment::random(rng),
+            p2: None,
+        }
+    }
+}
+
+impl DsMsg for Message {
+    /// Create a new `Message`, with at least one randomized string. There is a
+    ///     chance it will also contain a second part, joined to the first by a
+    ///     Conjunction.
+    fn random(rng: &mut ThreadRng) -> Self {
+        if compound(rng) {
+            Self::double(rng)
+        } else {
+            Self::single(rng)
         }
     }
 }
