@@ -26,7 +26,10 @@ pub use ds2::Message as MessageDkS2;
 #[cfg(feature = "ds3")]
 pub use ds3::Message as MessageDkS3;
 
-use rand::prelude::{SliceRandom, thread_rng, ThreadRng};
+use rand::prelude::{Rng, SliceRandom, thread_rng, ThreadRng};
+
+
+const COMPOUND_CHANCE: f64 = 0.5;
 
 
 /// Indicates that a Struct can be used to generate and represent a Message.
@@ -38,7 +41,7 @@ pub trait DsMsg: std::fmt::Display {
 
 /// A special case of `DsMsg` which may contain a second segment. The two parts
 ///     will be joined by a Conjunction string.
-pub trait DsMulti: DsMsg {
+pub trait DsMulti: std::fmt::Display {
     /// Create a `Message` with two parts.
     fn double(rng: &mut ThreadRng) -> Self
         where Self: Sized;
@@ -46,6 +49,22 @@ pub trait DsMulti: DsMsg {
     /// Create a `Message` with one part.
     fn single(rng: &mut ThreadRng) -> Self
         where Self: Sized;
+}
+
+
+impl<M> DsMsg for M
+    where M: DsMulti,
+{
+    /// Create a new `Message`, with at least one randomized string. There is a
+    ///     chance it will also contain a second part, joined to the first by a
+    ///     Conjunction.
+    fn random(rng: &mut ThreadRng) -> Self {
+        if rng.gen_bool(COMPOUND_CHANCE) {
+            Self::double(rng)
+        } else {
+            Self::single(rng)
+        }
+    }
 }
 
 

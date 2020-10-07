@@ -2,11 +2,10 @@
 
 mod data;
 
-use crate::util::compound;
 use data::{CONJUNCTIONS, TEMPLATES, WORDS};
 use rand::prelude::{SliceRandom, ThreadRng};
 use std::fmt::{Display, Formatter, Result};
-use super::{DsMsg, DsMulti};
+use super::DsMulti;
 
 
 /// A template, combined with a phrase to be inserted into it. Represents a
@@ -62,19 +61,6 @@ impl DsMulti for Message {
         Self {
             p1: Segment::random(rng),
             p2: None,
-        }
-    }
-}
-
-impl DsMsg for Message {
-    /// Create a new `Message`, with at least one randomized string. There is a
-    ///     chance it will also contain a second part, joined to the first by a
-    ///     Conjunction.
-    fn random(rng: &mut ThreadRng) -> Self {
-        if compound(rng) {
-            Self::double(rng)
-        } else {
-            Self::single(rng)
         }
     }
 }
