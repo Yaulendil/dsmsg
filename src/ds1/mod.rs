@@ -7,7 +7,6 @@ use rand::prelude::{SliceRandom, ThreadRng};
 use std::{
     borrow::Cow,
     fmt::{Display, Formatter, Result},
-    ops::Deref,
 };
 use super::DsMsg;
 
@@ -26,24 +25,19 @@ impl DsMsg for Message {
     ///     be chosen to fill it.
     fn random(rng: &mut ThreadRng) -> Self {
         let temp: &'static str = TEMPLATES.choose(rng).unwrap();
-        let fill: Option<Cow<'static, str>> = temp.find('\x1F').map(
-            |i| {
-                if i == 0 || temp.contains(':') {
-                    let mut s: String = FILL.choose(rng)
-                        .unwrap().deref().to_string();
+        let fill: Option<Cow<'static, str>> = match temp.find('\x1F')
+        {
+            Some(i) if i == 0 || temp.contains(':') => {
+                let mut s: String = FILL.choose(rng).unwrap().to_string();
 
-                    if !s.is_empty() {
-                        //  Replace the first character with its uppercase
-                        //      equivalent, in-place.
-                        unsafe { s.as_bytes_mut()[0].make_ascii_uppercase(); }
-                    }
+                //  Replace the first character with its uppercase equivalent.
+                unsafe { s.as_bytes_mut().first_mut().map(u8::make_ascii_uppercase); }
 
-                    Cow::Owned(s)
-                } else {
-                    Cow::Borrowed(FILL.choose(rng).unwrap().deref())
-                }
+                Some(Cow::Owned(s))
             }
-        );
+            Some(_) => Some(Cow::Borrowed(*FILL.choose(rng).unwrap())),
+            None => None,
+        };
 
         Self { temp, fill }
     }
@@ -52,8 +46,9 @@ impl DsMsg for Message {
 impl Display for Message {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match &self.fill {
+            Some(fill) if self.temp == "\x1F" => fill.fmt(f),
             Some(fill) => {
-                let i: usize = self.temp.find('\x1F').unwrap_or_else(|| self.temp.len());
+                let i: usize = self.temp.find('\x1F').unwrap();
                 write!(f, "{}{}{}", &self.temp[..i], &fill, &self.temp[i + 1..])
             }
             _ => self.temp.fmt(f),
