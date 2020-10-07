@@ -8,6 +8,10 @@
 ![GitHub](https://img.shields.io/github/repo-size/yaulendil/dsmsg?logo=github&style=for-the-badge&label=repo)
 ](https://github.com/yaulendil/dsmsg)
 
+[
+![docs.rs](https://docs.rs/dsmsg/badge.svg?style=for-the-badge)
+](https://docs.rs/dsmsg)
+
 ##### Random generator for online messages from Dark Souls, Demon's Souls, and Bloodborne.
 
 Generates messages in the format of one of any of the three in the series, chosen randomly. Messages from Dark Souls II and III may have a second part, in which case the two parts will be joined by a conjunction.
