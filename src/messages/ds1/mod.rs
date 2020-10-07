@@ -2,7 +2,6 @@
 
 mod data;
 
-use crate::util::capitalize;
 use data::{FILL, TEMPLATES};
 use rand::prelude::{SliceRandom, ThreadRng};
 use std::{
@@ -33,7 +32,12 @@ impl DsMsg for Message {
                     let mut s: String = FILL.choose(rng)
                         .unwrap().deref().to_string();
 
-                    capitalize(&mut s);
+                    if !s.is_empty() {
+                        //  Replace the first character with its uppercase
+                        //      equivalent, in-place.
+                        unsafe { s.as_bytes_mut()[0].make_ascii_uppercase(); }
+                    }
+
                     Cow::Owned(s)
                 } else {
                     Cow::Borrowed(FILL.choose(rng).unwrap().deref())

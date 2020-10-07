@@ -7,6 +7,5 @@ extern crate lazy_static;
 extern crate rand;
 
 mod messages;
-mod util;
 
 pub use messages::*;
