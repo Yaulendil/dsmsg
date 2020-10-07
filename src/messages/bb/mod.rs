@@ -2,10 +2,10 @@
 
 mod data;
 
-use rand::prelude::{SliceRandom, ThreadRng};
-
 use crate::util::compound;
 use data::{CONJUNCTIONS, TEMPLATES, WORDS};
+use rand::prelude::{SliceRandom, ThreadRng};
+use std::fmt::{Display, Formatter, Result};
 use super::{DsMsg, DsMulti};
 
 
@@ -23,11 +23,18 @@ impl Segment {
     }
 }
 
-impl std::fmt::Display for Segment {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl Display for Segment {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        //  This implementation can be slimmer than the ones found in the DkSII
+        //      and DkSIII Segments, because in Bloodborne, the "musing" style
+        //      message fragments are implemented as Templates, rather than as
+        //      fillers for otherwise-empty Templates.
         match self.main.find('\x1F') {
-            Some(i) => write!(f, "{}{}{}", &self.main[..i], &self.word, &self.main[i + 1..]),
-            None => write!(f, "{}", &self.main),
+            Some(i) => write!(
+                f, "{}{}{}",
+                &self.main[..i], &self.word, &self.main[i + 1..],
+            ),
+            None => self.main.fmt(f),
         }
     }
 }
@@ -72,11 +79,11 @@ impl DsMsg for Message {
     }
 }
 
-impl std::fmt::Display for Message {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl Display for Message {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match &self.p2 {
             Some((conj, second)) => write!(f, "{}{}{}", &self.p1, conj, second),
-            None => write!(f, "{}", &self.p1),
+            None => self.p1.fmt(f),
         }
     }
 }

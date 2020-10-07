@@ -7,6 +7,7 @@ use data::{FILL, TEMPLATES};
 use rand::prelude::{SliceRandom, ThreadRng};
 use std::{
     borrow::Cow,
+    fmt::{Display, Formatter, Result},
     ops::Deref,
 };
 use super::DsMsg;
@@ -44,14 +45,14 @@ impl DsMsg for Message {
     }
 }
 
-impl std::fmt::Display for Message {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl Display for Message {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match &self.fill {
             Some(fill) => {
                 let i: usize = self.temp.find('\x1F').unwrap_or_else(|| self.temp.len());
                 write!(f, "{}{}{}", &self.temp[..i], &fill, &self.temp[i + 1..])
             }
-            _ => write!(f, "{}", &self.temp),
+            _ => self.temp.fmt(f),
         }
     }
 }

@@ -2,10 +2,10 @@
 
 mod data;
 
-use rand::prelude::{SliceRandom, ThreadRng};
-
 use crate::util::compound;
 use data::{CONJUNCTIONS, TEMPLATES, WORDS, WORDS_MUSINGS};
+use rand::prelude::{SliceRandom, ThreadRng};
+use std::fmt::{Display, Formatter, Result};
 use super::{DsMsg, DsMulti};
 
 
@@ -17,15 +17,14 @@ impl Segment {
     /// Create a new `Segment`, with a random Template and a random Word.
     pub fn random(rng: &mut ThreadRng) -> Self {
         let main: &str = TEMPLATES.choose(rng).unwrap();
-        let word_list: &[&str];
 
         //  All of the Templates which are allowed to use Musings are four
         //      characters or shorter.
-        if main.len() <= 4 {
-            word_list = WORDS_MUSINGS;
+        let word_list: &[&str] = if main.len() <= 4 {
+            WORDS_MUSINGS
         } else {
-            word_list = &WORDS;
-        }
+            &WORDS
+        };
 
         Self {
             main,
@@ -34,10 +33,19 @@ impl Segment {
     }
 }
 
-impl std::fmt::Display for Segment {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let i: usize = self.main.find('\x1F').unwrap_or_else(|| self.main.len());
-        write!(f, "{}{}{}", &self.main[..i], &self.word, &self.main[i + 1..])
+impl Display for Segment {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        if self.main == "\x1F" {
+            self.word.fmt(f)
+        } else {
+            match self.main.find('\x1F') {
+                Some(i) => write!(
+                    f, "{}{}{}",
+                    &self.main[..i], &self.word, &self.main[i + 1..],
+                ),
+                None => self.main.fmt(f),
+            }
+        }
     }
 }
 
@@ -81,11 +89,11 @@ impl DsMsg for Message {
     }
 }
 
-impl std::fmt::Display for Message {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl Display for Message {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match &self.p2 {
             Some((conj, second)) => write!(f, "{}{}{}", &self.p1, conj, second),
-            None => write!(f, "{}", &self.p1),
+            None => self.p1.fmt(f),
         }
     }
 }
