@@ -38,6 +38,7 @@ use rand::prelude::{Rng, SliceRandom, thread_rng, ThreadRng};
 
 
 const COMPOUND_CHANCE: f64 = 0.5;
+pub type Generator = fn(&mut ThreadRng) -> Box<dyn DsMsg>;
 
 
 /// Indicates that a Struct can be used to generate and represent a Message.
@@ -78,7 +79,7 @@ impl<M> DsMsg for M
 
 /// A constant slice of small closures that each return a `Box<dyn DsMsg>` of a
 ///     random generation of their respective messages.
-pub const GENERATORS: &[fn(&mut ThreadRng) -> Box<dyn DsMsg>] = &[
+pub const GENERATORS: &[Generator] = &[
     #[cfg(feature = "bloodborne")]
         |r| Box::new(MessageBB::random(r)),
     #[cfg(feature = "demons")]
