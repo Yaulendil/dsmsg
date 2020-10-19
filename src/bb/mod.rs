@@ -15,10 +15,14 @@ struct Segment { main: &'static str, word: &'static str }
 impl Segment {
     /// Create a new `Segment`, with a random Template and a random Word.
     pub fn random(rng: &mut ThreadRng) -> Self {
-        Self {
-            main: TEMPLATES.choose(rng).unwrap(),
-            word: WORDS.choose(rng).unwrap(),
-        }
+        let main: &str = TEMPLATES.choose(rng).unwrap();
+        let word: &str = if main.contains('\x1F') {
+            WORDS.choose(rng).unwrap()
+        } else {
+            ""
+        };
+
+        Self { main, word }
     }
 }
 
