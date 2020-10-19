@@ -11,13 +11,13 @@ use super::DsMsg;
 /// A complete Hint Message that could be found in Demon's Souls. Consists of
 ///     either one or two strings. One is a Template, and the other, if present,
 ///     is a Fill phrase.
-pub struct Message {
+pub struct MessageDeS {
     temp: &'static str,
     fill: Option<&'static str>,
 }
 
-impl DsMsg for Message {
-    /// Create a new `Message`, with at least one randomized string. If the
+impl DsMsg for MessageDeS {
+    /// Create a new `MessageDeS`, with at least one randomized string. If the
     ///     chosen string contains a placeholder character, a second string will
     ///     be chosen to fill it.
     fn random(rng: &mut ThreadRng) -> Self {
@@ -28,7 +28,7 @@ impl DsMsg for Message {
     }
 }
 
-impl Display for Message {
+impl Display for MessageDeS {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match &self.fill {
             Some(fill) if self.temp == "\x1F" => fill.fmt(f),

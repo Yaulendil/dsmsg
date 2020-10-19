@@ -42,13 +42,13 @@ impl Display for Segment {
 /// A complete Hint Message that could be found in Dark Souls III. Consists of
 ///     either one or two parts. If there are two, there will also be a
 ///     Conjunction string to join them.
-pub struct Message {
+pub struct MessageDkS3 {
     p1: Segment,
     p2: Option<(&'static str, Segment)>,
 }
 
-impl DsMulti for Message {
-    /// Create a `Message` with two parts.
+impl DsMulti for MessageDkS3 {
+    /// Create a `MessageDkS3` with two parts.
     fn double(rng: &mut ThreadRng) -> Self {
         Self {
             p1: Segment::random(rng),
@@ -56,7 +56,7 @@ impl DsMulti for Message {
         }
     }
 
-    /// Create a `Message` with one part.
+    /// Create a `MessageDkS3` with one part.
     fn single(rng: &mut ThreadRng) -> Self {
         Self {
             p1: Segment::random(rng),
@@ -65,7 +65,7 @@ impl DsMulti for Message {
     }
 }
 
-impl Display for Message {
+impl Display for MessageDkS3 {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match &self.p2 {
             Some((conj, second)) => write!(f, "{}{}{}", &self.p1, conj, second),

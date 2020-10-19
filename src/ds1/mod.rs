@@ -14,13 +14,13 @@ use super::DsMsg;
 /// A complete Hint Message that could be found in Dark Souls I. Consists of
 ///     either one or two strings. One is a Template, and the other, if present,
 ///     is a Fill phrase.
-pub struct Message {
+pub struct MessageDkS1 {
     temp: &'static str,
     fill: Option<Cow<'static, str>>,
 }
 
-impl DsMsg for Message {
-    /// Create a new `Message`, with at least one randomized string. If the
+impl DsMsg for MessageDkS1 {
+    /// Create a new `MessageDkS1`, with at least one randomized string. If the
     ///     chosen string contains a placeholder character, a second string will
     ///     be chosen to fill it.
     fn random(rng: &mut ThreadRng) -> Self {
@@ -43,7 +43,7 @@ impl DsMsg for Message {
     }
 }
 
-impl Display for Message {
+impl Display for MessageDkS1 {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match &self.fill {
             Some(fill) if self.temp == "\x1F" => fill.fmt(f),

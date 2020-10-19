@@ -24,25 +24,32 @@ mod ds2;
 mod ds3;
 
 #[cfg(feature = "bloodborne")]
-pub use bb::Message as MessageBB;
+pub use bb::MessageBB;
 #[cfg(feature = "demons")]
-pub use des::Message as MessageDeS;
+pub use des::MessageDeS;
 #[cfg(feature = "ds1")]
-pub use ds1::Message as MessageDkS1;
+pub use ds1::MessageDkS1;
 #[cfg(feature = "ds2")]
-pub use ds2::Message as MessageDkS2;
+pub use ds2::MessageDkS2;
 #[cfg(feature = "ds3")]
-pub use ds3::Message as MessageDkS3;
+pub use ds3::MessageDkS3;
 
 use rand::prelude::{Rng, SliceRandom, thread_rng, ThreadRng};
+use std::fmt::Display;
 
 
+/// Percentage chance for a Message to have multiple clauses, joined by a
+///     Conjunction.
 const COMPOUND_CHANCE: f64 = 0.5;
+
+
+/// A Closure that takes an RNG State and returns a dynamic type that
+///     implements `DsMsg`.
 pub type Generator = fn(&mut ThreadRng) -> Box<dyn DsMsg>;
 
 
 /// Indicates that a Struct can be used to generate and represent a Message.
-pub trait DsMsg: std::fmt::Display {
+pub trait DsMsg: Display {
     fn random(rng: &mut ThreadRng) -> Self
         where Self: Sized;
 }
@@ -50,7 +57,7 @@ pub trait DsMsg: std::fmt::Display {
 
 /// A special case of `DsMsg` which may contain a second segment. The two parts
 ///     will be joined by a Conjunction string.
-pub trait DsMulti: std::fmt::Display {
+pub trait DsMulti: Display {
     /// Create a Message with two parts.
     fn double(rng: &mut ThreadRng) -> Self
         where Self: Sized;

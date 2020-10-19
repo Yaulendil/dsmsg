@@ -24,8 +24,8 @@ impl Segment {
 
 impl Display for Segment {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        //  This implementation can be slimmer than the ones found in the DkSII
-        //      and DkSIII Segments, because in Bloodborne, the "musing" style
+        //  This implementation can be slimmer than the ones found in the DkS2
+        //      and DkS3 Segments, because in Bloodborne, the "musing" style
         //      message fragments are implemented as Templates, rather than as
         //      fillers for otherwise-empty Templates.
         match self.main.find('\x1F') {
@@ -42,13 +42,13 @@ impl Display for Segment {
 /// A complete Hint Message that could be found in Bloodborne. Consists of
 ///     either one or two parts. If there are two, there will also be a
 ///     Conjunction string to join them.
-pub struct Message {
+pub struct MessageBB {
     p1: Segment,
     p2: Option<(&'static str, Segment)>,
 }
 
-impl DsMulti for Message {
-    /// Create a `Message` with two parts.
+impl DsMulti for MessageBB {
+    /// Create a `MessageBB` with two parts.
     fn double(rng: &mut ThreadRng) -> Self {
         Self {
             p1: Segment::random(rng),
@@ -56,7 +56,7 @@ impl DsMulti for Message {
         }
     }
 
-    /// Create a `Message` with one part.
+    /// Create a `MessageBB` with one part.
     fn single(rng: &mut ThreadRng) -> Self {
         Self {
             p1: Segment::random(rng),
@@ -65,7 +65,7 @@ impl DsMulti for Message {
     }
 }
 
-impl Display for Message {
+impl Display for MessageBB {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match &self.p2 {
             Some((conj, second)) => write!(f, "{}{}{}", &self.p1, conj, second),
