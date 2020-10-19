@@ -5,12 +5,13 @@ extern crate argh;
 
 use argh::{from_env, FromArgs};
 use dsmsg::*;
-use rand::prelude::{SliceRandom, thread_rng, ThreadRng};
+use rand::prelude::{IteratorRandom, SliceRandom, thread_rng, ThreadRng};
 
 
-const NO_GENERATOR: &str = (
-    "Failed to select a Message Generator; DsMsg may need to be recompiled."
-);
+/// Error message for when there are no Generators available. This should NEVER
+///     happen, because compile-time checks ensure that at least one Generator
+///     will be active.
+const NO_GENERATOR: &str = "Failed to select a Message Generator; DsMsg may need to be recompiled.";
 
 
 /**
@@ -50,51 +51,33 @@ struct CommandOpts {
 }
 
 
-impl CommandOpts {
-    const fn any(&self) -> bool {
-        let mut any: bool = false;
-
-        #[cfg(feature = "bloodborne")] { any |= self.bb; }
-        #[cfg(feature = "demons")] { any |= self.des; }
-        #[cfg(feature = "ds1")] { any |= self.ds1; }
-        #[cfg(feature = "ds2")] { any |= self.ds2; }
-        #[cfg(feature = "ds3")] { any |= self.ds3; }
-
-        any
+impl From<CommandOpts> for Vec<bool> {
+    fn from(opt: CommandOpts) -> Self {
+        vec![
+            #[cfg(feature = "bloodborne")] opt.bb,
+            #[cfg(feature = "demons")] opt.des,
+            #[cfg(feature = "ds1")] opt.ds1,
+            #[cfg(feature = "ds2")] opt.ds2,
+            #[cfg(feature = "ds3")] opt.ds3,
+        ]
     }
 }
 
 
 fn main() -> Result<(), &'static str> {
-    let opt: CommandOpts = from_env();
-    let vec_gen: Vec<Generator> = {
-        if opt.any() {
-            let mut vec: Vec<Generator> = Vec::with_capacity(5);
-
-            #[cfg(feature = "bloodborne")] {
-                if opt.bb { vec.push(|r| Box::new(MessageBB::random(r))); }
-            }
-            #[cfg(feature = "demons")] {
-                if opt.des { vec.push(|r| Box::new(MessageDeS::random(r))); }
-            }
-            #[cfg(feature = "ds1")] {
-                if opt.ds1 { vec.push(|r| Box::new(MessageDkS1::random(r))); }
-            }
-            #[cfg(feature = "ds2")] {
-                if opt.ds2 { vec.push(|r| Box::new(MessageDkS2::random(r))); }
-            }
-            #[cfg(feature = "ds3")] {
-                if opt.ds3 { vec.push(|r| Box::new(MessageDkS3::random(r))); }
-            }
-
-            vec
-        } else {
-            Vec::from(GENERATORS)
-        }
-    };
-
     let mut rng: ThreadRng = thread_rng();
-    match vec_gen.choose(&mut rng) {
+    match {
+        let opts: Vec<bool> = Vec::from(from_env::<CommandOpts>());
+
+        if opts.iter().any(|&b| b) {
+            let mut filter = opts.iter().copied();
+            GENERATORS.iter()
+                .filter(move |_| filter.next().unwrap_or_default())
+                .choose(&mut rng)
+        } else {
+            GENERATORS.choose(&mut rng)
+        }
+    } {
         Some(generate) => {
             println!("{}", generate(&mut rng));
             Ok(())
