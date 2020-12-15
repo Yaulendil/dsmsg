@@ -21,7 +21,7 @@ Messages from a specific game may be specified by command line options. If
 multiple games are specified, one of them will be randomly selected to be
 generated. If no options are specified, it is interpreted the same as if ALL
 have been selected.
-**/ //  NOTE: Block comment is necessary here to properly lay out help text.
+*/ //  NOTE: Block comment is necessary here to properly lay out help text.
 #[derive(FromArgs)]
 struct CommandOpts {
     /// generate a message from Bloodborne
