@@ -6,12 +6,16 @@
     feature = "ds1", feature = "ds2", feature = "ds3",
     feature = "sekiro",
 )))]
-compile_error!("Cannot compile without any Message Sets enabled.");
+compile_error!("Cannot compile without any Message Sets enabled. Enable \
+at least one of the following Features:\
+\n- bloodborne\n- demons\n- ds1\n- ds2\n- ds3\n- sekiro");
 
 #[cfg(feature = "ds2")]
 #[macro_use]
 extern crate lazy_static;
 extern crate rand;
+#[macro_use]
+extern crate static_assertions;
 
 #[cfg(feature = "bloodborne")]
 mod bb;
@@ -48,11 +52,6 @@ use std::fmt::Display;
 const COMPOUND_CHANCE: f64 = 0.5;
 
 
-/// A Closure that takes an RNG State and returns a dynamic type that
-///     implements `DsMsg`.
-pub type Generator = fn(&mut ThreadRng) -> Box<dyn DsMsg>;
-
-
 /// Indicates that a Struct can be used to generate and represent a Message.
 pub trait DsMsg: Display {
     fn random(rng: &mut ThreadRng) -> Self
@@ -87,9 +86,14 @@ impl<M: DsMulti> DsMsg for M {
 }
 
 
+/// A Closure that takes an RNG State and returns a dynamic type that
+///     implements `DsMsg`.
+pub type Generator = fn(&mut ThreadRng) -> Box<dyn DsMsg>;
+
+
 /// A constant slice of small closures that each return a `Box<dyn DsMsg>` of a
 ///     random generation of their respective messages.
-pub const GENERATORS: &[Generator] = &[
+pub const GENERATORS: &[fn(&mut ThreadRng) -> Box<dyn DsMsg>] = &[
     #[cfg(feature = "bloodborne")]  |r| Box::new(MessageBB::random(r)),
     #[cfg(feature = "demons")]      |r| Box::new(MessageDeS::random(r)),
     #[cfg(feature = "ds1")]         |r| Box::new(MessageDkS1::random(r)),
@@ -99,12 +103,16 @@ pub const GENERATORS: &[Generator] = &[
 ];
 
 
+//  Double check to make ***absolutely certain*** that this cannot be empty.
+const_assert_ne!(GENERATORS.len(), 0);
+
+
 /// Randomly select from the `GENERATORS` slice, and run it, producing a random
 ///     message from a random source.
 pub fn random_message() -> Box<dyn DsMsg> {
     let mut rng: ThreadRng = thread_rng();
 
     GENERATORS.choose(&mut rng)
-        .expect("DsMsg was not compiled with any Generators!")
+        .unwrap_or_else(|| unsafe { std::hint::unreachable_unchecked() })
         (&mut rng)
 }

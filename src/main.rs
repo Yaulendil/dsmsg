@@ -8,13 +8,6 @@ use dsmsg::*;
 use rand::prelude::{IteratorRandom, SliceRandom, thread_rng, ThreadRng};
 
 
-/// Error message for when there are no Generators available. This should NEVER
-///     happen, because compile-time checks ensure that at least one Generator
-///     will be active.
-const NO_GENERATOR: &str = "Failed to select a Message Generator; DsMsg may \
-need to be recompiled.";
-
-
 /**
 Randomly generate Messages that could be found in the Dark Souls series.
 
@@ -89,6 +82,10 @@ fn main() -> Result<(), &'static str> {
             println!("{}", generate(&mut rng));
             Ok(())
         }
-        None => Err(NO_GENERATOR),
+        None => unsafe {
+            //  This should be safe because `GENERATORS` is ensured to not be
+            //      empty by compile-time checks in `/src/lib.rs`.
+            std::hint::unreachable_unchecked()
+        }
     }
 }
