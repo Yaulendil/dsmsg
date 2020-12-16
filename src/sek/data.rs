@@ -30,7 +30,7 @@ pub const TEMPLATES: &[&str] = &[
 ];
 
 /// Conjunctions: Phrases which can be used to combine two Templates.
-#[cfg(not(feature="newline"))]
+#[cfg(not(feature = "newline"))]
 pub const CONJUNCTIONS: &[&str] = &[
     " and ",
     " because ",
@@ -52,7 +52,7 @@ pub const CONJUNCTIONS: &[&str] = &[
 
 /// Conjunctions: Phrases which can be used to combine two Templates, onto
 ///     multiple lines.
-#[cfg(feature="newline")]
+#[cfg(feature = "newline")]
 pub const CONJUNCTIONS: &[&str] = &[
     "\nand ",
     "\nbecause ",

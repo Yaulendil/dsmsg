@@ -16,11 +16,11 @@ pub const TEMPLATES: &[&str] = &[
     "Huh. It's a \x1F...",
     "praise the \x1F!",
     "Let there be \x1F",
-    "Ahh, \x1F..."
+    "Ahh, \x1F...",
 ];
 
 /// Conjunctions: Phrases which can be used to combine two Templates.
-#[cfg(not(feature="newline"))]
+#[cfg(not(feature = "newline"))]
 pub const CONJUNCTIONS: &[&str] = &[
     " and then ",
     " therefore ",
@@ -30,12 +30,12 @@ pub const CONJUNCTIONS: &[&str] = &[
     " by the way ",
     " so to speak ",
     " all the more ",
-    ", "
+    ", ",
 ];
 
 /// Conjunctions: Phrases which can be used to combine two Templates, onto
 ///     multiple lines.
-#[cfg(feature="newline")]
+#[cfg(feature = "newline")]
 pub const CONJUNCTIONS: &[&str] = &[
     "\nand then ",
     "\ntherefore ",
@@ -45,7 +45,7 @@ pub const CONJUNCTIONS: &[&str] = &[
     "\nby the way ",
     "\nso to speak ",
     "\nall the more ",
-    ",\n"
+    ",\n",
 ];
 
 /// Words: Nouns, tactics, concepts, and anything else which can be inserted

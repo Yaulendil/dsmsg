@@ -11,7 +11,8 @@ use rand::prelude::{IteratorRandom, SliceRandom, thread_rng, ThreadRng};
 /// Error message for when there are no Generators available. This should NEVER
 ///     happen, because compile-time checks ensure that at least one Generator
 ///     will be active.
-const NO_GENERATOR: &str = "Failed to select a Message Generator; DsMsg may need to be recompiled.";
+const NO_GENERATOR: &str = "Failed to select a Message Generator; DsMsg may \
+need to be recompiled.";
 
 
 /**

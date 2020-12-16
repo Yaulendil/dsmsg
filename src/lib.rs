@@ -73,9 +73,7 @@ pub trait DsMulti: Display {
 }
 
 
-impl<M> DsMsg for M
-    where M: DsMulti,
-{
+impl<M: DsMulti> DsMsg for M {
     /// Create a new Message, with at least one randomized string. There is a
     ///     chance it will also contain a second part, joined to the first by a
     ///     Conjunction.
@@ -92,18 +90,12 @@ impl<M> DsMsg for M
 /// A constant slice of small closures that each return a `Box<dyn DsMsg>` of a
 ///     random generation of their respective messages.
 pub const GENERATORS: &[Generator] = &[
-    #[cfg(feature = "bloodborne")]
-        |r| Box::new(MessageBB::random(r)),
-    #[cfg(feature = "demons")]
-        |r| Box::new(MessageDeS::random(r)),
-    #[cfg(feature = "ds1")]
-        |r| Box::new(MessageDkS1::random(r)),
-    #[cfg(feature = "ds2")]
-        |r| Box::new(MessageDkS2::random(r)),
-    #[cfg(feature = "ds3")]
-        |r| Box::new(MessageDkS3::random(r)),
-    #[cfg(feature = "sekiro")]
-        |r| Box::new(MessageSek::random(r)),
+    #[cfg(feature = "bloodborne")]  |r| Box::new(MessageBB::random(r)),
+    #[cfg(feature = "demons")]      |r| Box::new(MessageDeS::random(r)),
+    #[cfg(feature = "ds1")]         |r| Box::new(MessageDkS1::random(r)),
+    #[cfg(feature = "ds2")]         |r| Box::new(MessageDkS2::random(r)),
+    #[cfg(feature = "ds3")]         |r| Box::new(MessageDkS3::random(r)),
+    #[cfg(feature = "sekiro")]      |r| Box::new(MessageSek::random(r)),
 ];
 
 
