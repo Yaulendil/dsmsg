@@ -75,3 +75,15 @@ fn test_bb() {
         );
     }
 }
+
+
+#[cfg(feature="sekiro")]
+#[test]
+fn test_sek() {
+    for i in 1..=ITERS {
+        println!(
+            "S-{i:0d$}: {txt}",
+            i=i, d=DIGIT, txt=MessageSek::random(&mut thread_rng()),
+        );
+    }
+}

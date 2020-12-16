@@ -4,6 +4,7 @@
 #[cfg(not(any(
     feature = "bloodborne", feature = "demons",
     feature = "ds1", feature = "ds2", feature = "ds3",
+    feature = "sekiro",
 )))]
 compile_error!("Cannot compile without any Message Sets enabled.");
 
@@ -22,6 +23,8 @@ mod ds1;
 mod ds2;
 #[cfg(feature = "ds3")]
 mod ds3;
+#[cfg(feature = "sekiro")]
+mod sek;
 
 #[cfg(feature = "bloodborne")]
 pub use bb::MessageBB;
@@ -33,6 +36,8 @@ pub use ds1::MessageDkS1;
 pub use ds2::MessageDkS2;
 #[cfg(feature = "ds3")]
 pub use ds3::MessageDkS3;
+#[cfg(feature = "sekiro")]
+pub use sek::MessageSek;
 
 use rand::prelude::{Rng, SliceRandom, thread_rng, ThreadRng};
 use std::fmt::Display;
@@ -97,6 +102,8 @@ pub const GENERATORS: &[Generator] = &[
         |r| Box::new(MessageDkS2::random(r)),
     #[cfg(feature = "ds3")]
         |r| Box::new(MessageDkS3::random(r)),
+    #[cfg(feature = "sekiro")]
+        |r| Box::new(MessageSek::random(r)),
 ];
 
 

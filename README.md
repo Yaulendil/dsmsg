@@ -12,9 +12,9 @@
 ![docs.rs](https://docs.rs/dsmsg/badge.svg?style=for-the-badge)
 ](https://docs.rs/dsmsg)
 
-##### Random generator for online messages from Dark Souls, Demon's Souls, and Bloodborne.
+##### Random generator for online messages from Dark Souls, Demon's Souls, Bloodborne, and Sekiro.
 
-Generates messages in the format of one of any of the three in the series, chosen randomly. Messages from Dark Souls II and III may have a second part, in which case the two parts will be joined by a conjunction.
+Generates messages in the format of one of any game in the series, chosen randomly. Messages from the more recent titles may have a second part, in which case the two parts will be joined by a conjunction.
 
 ## Installation
 
@@ -39,7 +39,7 @@ cargo install dsmsg --features "newline"
 
 ## Optional Message Sets
 
-Messages from Bloodborne and Demon's Souls are also available via compile options. To enable output from all available message groups:
+Messages from Bloodborne, Demon's Souls, and Sekiro are also available via compile options. To enable output from all available message groups:
 
 ```
 cargo install dsmsg --features "all-sets"
@@ -57,6 +57,7 @@ This will first **disable** all three Dark Souls message groups (including `ds3`
 - `ds1`
 - `ds2`
 - `ds3`
+- `sekiro`
 
 
 ---
