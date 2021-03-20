@@ -31,7 +31,12 @@ impl DsMsg for MessageDkS1 {
                 let mut s: String = FILL.choose(rng).unwrap().to_string();
 
                 //  Replace the first character with its uppercase equivalent.
-                unsafe { s.as_bytes_mut().first_mut().map(u8::make_ascii_uppercase); }
+                unsafe {
+                    //  SAFETY: This should be safe because only one byte is
+                    //      being affected, and it is only affected if it is not
+                    //      part of a multi-byte UTF-8 sequence.
+                    s.as_bytes_mut().first_mut().map(u8::make_ascii_uppercase);
+                }
 
                 Some(Cow::Owned(s))
             }

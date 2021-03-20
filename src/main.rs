@@ -83,8 +83,8 @@ fn main() -> Result<(), &'static str> {
             Ok(())
         }
         None => unsafe {
-            //  This should be safe because `GENERATORS` is ensured to not be
-            //      empty by compile-time checks in `/src/lib.rs`.
+            //  SAFETY: This should be safe because `GENERATORS` is ensured to
+            //      not be empty by compile-time checks in `/src/lib.rs`.
             std::hint::unreachable_unchecked()
         }
     }

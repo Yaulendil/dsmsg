@@ -112,6 +112,8 @@ const_assert_ne!(GENERATORS.len(), 0);
 pub fn random_message() -> Box<dyn DsMsg> {
     let mut rng: ThreadRng = thread_rng();
 
+    //  SAFETY: This should be safe because `GENERATORS` is ensured to not be
+    //      empty by compile-time checks.
     GENERATORS.choose(&mut rng)
         .unwrap_or_else(|| unsafe { std::hint::unreachable_unchecked() })
         (&mut rng)
