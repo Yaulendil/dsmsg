@@ -77,6 +77,18 @@ fn test_bb() {
 }
 
 
+#[cfg(feature = "eldenring")]
+#[test]
+fn test_er1() {
+    for i in 1..=ITERS {
+        println!(
+            "E-{i:0d$}: {txt}",
+            i = i, d = DIGIT, txt = MessageEr1::random(&mut thread_rng()),
+        );
+    }
+}
+
+
 #[cfg(feature = "sekiro")]
 #[test]
 fn test_sek() {

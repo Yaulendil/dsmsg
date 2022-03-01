@@ -4,11 +4,12 @@
 #[cfg(not(any(
     feature = "bloodborne", feature = "demons",
     feature = "ds1", feature = "ds2", feature = "ds3",
+    feature = "eldenring",
     feature = "sekiro",
 )))]
 compile_error!("Cannot compile without any Message Sets enabled. Enable \
 at least one of the following Features:\
-\n- bloodborne\n- demons\n- ds1\n- ds2\n- ds3\n- sekiro");
+\n- bloodborne\n- demons\n- ds1\n- ds2\n- ds3\n- eldenring\n- sekiro");
 
 #[cfg(feature = "ds2")]
 #[macro_use]
@@ -29,6 +30,8 @@ mod ds2;
 mod ds3;
 #[cfg(feature = "sekiro")]
 mod sek;
+#[cfg(feature = "eldenring")]
+mod er1;
 
 #[cfg(feature = "bloodborne")]
 pub use bb::MessageBB;
@@ -42,6 +45,8 @@ pub use ds2::MessageDkS2;
 pub use ds3::MessageDkS3;
 #[cfg(feature = "sekiro")]
 pub use sek::MessageSek;
+#[cfg(feature = "eldenring")]
+pub use er1::MessageEr1;
 
 use rand::prelude::{Rng, SliceRandom, thread_rng, ThreadRng};
 use std::fmt::Display;
@@ -100,6 +105,7 @@ pub const GENERATORS: &[fn(&mut ThreadRng) -> Box<dyn DsMsg>] = &[
     #[cfg(feature = "ds2")]         |r| Box::new(MessageDkS2::random(r)),
     #[cfg(feature = "ds3")]         |r| Box::new(MessageDkS3::random(r)),
     #[cfg(feature = "sekiro")]      |r| Box::new(MessageSek::random(r)),
+    #[cfg(feature = "eldenring")]   |r| Box::new(MessageEr1::random(r)),
 ];
 
 

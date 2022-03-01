@@ -43,6 +43,11 @@ struct CommandOpts {
     #[argh(switch)]
     ds3: bool,
 
+    /// generate a message from Elden Ring
+    #[cfg(feature = "eldenring")]
+    #[argh(switch)]
+    er1: bool,
+
     /// generate a message from Sekiro
     #[cfg(feature = "sekiro")]
     #[argh(switch)]
@@ -58,6 +63,7 @@ impl From<CommandOpts> for Vec<bool> {
             #[cfg(feature = "ds1")] opt.ds1,
             #[cfg(feature = "ds2")] opt.ds2,
             #[cfg(feature = "ds3")] opt.ds3,
+            #[cfg(feature = "eldenring")] opt.er1,
             #[cfg(feature = "sekiro")] opt.sek,
         ]
     }
