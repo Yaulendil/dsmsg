@@ -53,10 +53,11 @@ impl Display for MessageDkS1 {
         match &self.fill {
             Some(fill) if self.temp == "\x1F" => fill.fmt(f),
             Some(fill) => match self.temp.find('\x1F') {
-                Some(i) => write!(
-                    f, "{}{}{}",
-                    &self.temp[..i], &fill, &self.temp[i + 1..],
-                ),
+                Some(i) => {
+                    f.write_str(&self.temp[..i])?;
+                    f.write_str(&fill)?;
+                    f.write_str(&self.temp[i + 1..])
+                }
                 None => self.temp.fmt(f),
             }
             None => self.temp.fmt(f),
