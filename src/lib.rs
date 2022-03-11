@@ -104,8 +104,8 @@ pub const GENERATORS: &[fn(&mut ThreadRng) -> Box<dyn DsMsg>] = &[
     #[cfg(feature = "ds1")]         |r| Box::new(MessageDkS1::random(r)),
     #[cfg(feature = "ds2")]         |r| Box::new(MessageDkS2::random(r)),
     #[cfg(feature = "ds3")]         |r| Box::new(MessageDkS3::random(r)),
-    #[cfg(feature = "sekiro")]      |r| Box::new(MessageSek::random(r)),
     #[cfg(feature = "eldenring")]   |r| Box::new(MessageEr1::random(r)),
+    #[cfg(feature = "sekiro")]      |r| Box::new(MessageSek::random(r)),
 ];
 
 
